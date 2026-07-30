@@ -1,0 +1,5 @@
+{
+  "name": "goalcal",
+  "private": true,
+  "workspaces": ["backend", "frontend", "shared"]
+}
