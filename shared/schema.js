@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { modes, colorCombos } from './colors.js';
+import { DOT_SIZE } from './constants.js';
 
 export const goalQuerySchema = z.object({
   mode: z.enum(Object.keys(modes)),
-  dotSize: z.coerce.number().int().min(15).max(25).default(18),
+  dotSize: z.coerce.number().int().min(DOT_SIZE.min).max(DOT_SIZE.max).default(DOT_SIZE.default),
   dotColor: z.enum(Object.keys(colorCombos)),
   endDate: z.iso.date().pipe(z.coerce.date()),
   startDate: z.iso.date().pipe(z.coerce.date()),

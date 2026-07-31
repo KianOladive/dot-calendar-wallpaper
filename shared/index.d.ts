@@ -1,5 +1,8 @@
 import type { ZodType } from "zod"
 
+// --- constants.js ---
+export declare const DOT_SIZE: { min: number; max: number; default: number }
+
 // --- colors.js ---
 export declare const modes: Record<
   string,
@@ -46,5 +49,7 @@ export interface GoalConfig {
   position: "top" | "middle" | "bottom"
   gridPosition: "top" | "middle" | "bottom"
 }
+
+export declare const DOT_SIZE: { min: number; max: number; default: number }
 
 export declare const goalQuerySchema: ZodType<GoalConfig>

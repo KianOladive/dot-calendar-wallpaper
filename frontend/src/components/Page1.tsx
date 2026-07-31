@@ -16,7 +16,6 @@ import {
   FieldError,
   FieldDescription,
 } from "@/components/ui/field"
-import { Toggle } from "@/components/ui/toggle"
 import {
   Select,
   SelectContent,
@@ -27,12 +26,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "./ui/button"
-import { colorCombos, modes, goalQuerySchema } from "@goalcal/core"
+import { colorCombos, modes, DOT_SIZE, goalQuerySchema } from "@goalcal/core"
 
 export default function Page1() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [goal, setGoal] = useState<string>("")
   const [mode, setMode] = useState<string>("dark1")
+  const [color, setColor] = useState<string>("rosewater")
+  const [gridPosition, setGridPosition] = useState<string>("middle")
   const [dotSize, setDotSize] = useState<number>(18)
   const items = Object.keys(colorCombos)
   const lightnessModes = Object.keys(modes)
@@ -41,10 +42,10 @@ export default function Page1() {
   function handleInstall() {
     const candidate = {
       text: goal,
-      // dotColor: color,
+      dotColor: color,
       mode: mode,
-      // gridPosition,
-      // dotSize,
+      gridPosition: gridPosition,
+      dotSize: dotSize,
       // startDate: `${sY}-${sM.padStart(2,"0")}-${sD.padStart(2,"0")}`,
       // endDate:   `${eY}-${eM.padStart(2,"0")}-${eD.padStart(2,"0")}`,
     }
@@ -142,11 +143,16 @@ export default function Page1() {
         {errors.mode && <FieldError>{errors.mode}</FieldError>}
       </Field>
 
-      <Field className="max-w-sm flex-row">
+      <Field className="max-w-sm flex-row" data-invalid={!!errors.dotColor}>
         <FieldLabel htmlFor="color">Color</FieldLabel>
-        <Select items={items}>
+        <Select
+          id="color"
+          items={items}
+          value={color}
+          onValueChange={(v) => setColor(v ?? "")}
+        >
           <SelectTrigger className="w-full max-w-48">
-            <SelectValue placeholder="Select color" />
+            <SelectValue className="capitalize" placeholder="Select color" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -160,13 +166,19 @@ export default function Page1() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        {errors.dotColor && <FieldError>{errors.dotColor}</FieldError>}
       </Field>
 
-      <Field className="max-w-sm flex-row">
+      <Field className="max-w-sm flex-row" data-invalid={!!errors.gridPosition}>
         <FieldLabel htmlFor="grid-position">Grid Position</FieldLabel>
-        <Select items={gridPositions}>
+        <Select
+          id="grid-position"
+          items={gridPositions}
+          value={gridPosition}
+          onValueChange={(v) => setGridPosition(v ?? "")}
+        >
           <SelectTrigger className="w-full max-w-48">
-            <SelectValue placeholder="Select position"/>
+            <SelectValue className="capitalize" placeholder="Select position"/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -180,40 +192,37 @@ export default function Page1() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        {errors.gridPosition && <FieldError>{errors.gridPosition}</FieldError>}
       </Field>
 
-      <Field className="max-w-sm flex-row items-center justify-between">
+      <Field className="max-w-sm flex-row items-center justify-between" data-invalid={!!errors.dotSize}>
         <FieldLabel htmlFor="dot-size">Dot Size</FieldLabel>
         <div className="flex items-center gap-2 justify-end">
-        <Button variant="outline" size="icon" aria-label="Decrease" onClick={() => setDotSize(prev=> prev-1)}>
-          <IconMinus />
-        </Button>
-        <span className="w-5 flex justify-center">
-          {dotSize}
-        </span>
-        <Button variant="outline" size="icon" aria-label="Increase" onClick={() => setDotSize(prev=> prev+1)}>
-          <IconPlus />
-        </Button>
+          <Button
+            disabled={dotSize <= DOT_SIZE.min}
+            variant="outline"
+            size="icon" aria-label="Decrease"
+            onClick={() => setDotSize(prev => prev - 1)}
+          >
+            <IconMinus />
+          </Button>
+          <span className="w-5 flex justify-center">
+            {dotSize}
+          </span>
+          <Button
+            disabled={dotSize >= DOT_SIZE.max}
+            variant="outline"
+            size="icon"
+            aria-label="Increase"
+            onClick={() => setDotSize(prev => prev + 1)}
+          >
+            <IconPlus />
+          </Button>
         </div>
+        {errors.dotSize && <FieldError>{errors.dotSize}</FieldError>}
       </Field>
 
       <Button className="px-7" onClick={handleInstall}>Install</Button>
-
-      {/*<InputGroup>
-        <InputGroupInput placeholder="https://x.com/shadcnasdf" readOnly />
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              aria-label="Copy"
-              title="Copy"
-              size="icon-xs"
-              onClick={() => {
-                copy("https://x.com/shadcn")
-              }}
-            >
-              {copied ? <IconCheck /> : <IconCopy />}
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>*/}
     </div>
   )
 }
