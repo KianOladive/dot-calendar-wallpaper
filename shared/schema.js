@@ -8,7 +8,7 @@ export const goalQuerySchema = z.object({
   dotColor: z.enum(Object.keys(colorCombos)),
   endDate: z.iso.date().pipe(z.coerce.date()),
   startDate: z.iso.date().pipe(z.coerce.date()),
-  text: z.string().max(50),
+  text: z.string().max(50).min(1),
   position: z.enum(['top', 'middle', 'bottom']).default('middle'),
   gridPosition: z.enum(['top', 'middle', 'bottom']).default('middle'),
 }).refine(q => q.startDate < q.endDate, {

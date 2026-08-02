@@ -35,6 +35,12 @@ export default function Page1() {
   const [color, setColor] = useState<string>("rosewater")
   const [gridPosition, setGridPosition] = useState<string>("middle")
   const [dotSize, setDotSize] = useState<number>(18)
+  const [startYear, setStartYear] = useState<string>("")
+  const [startMonth, setStartMonth] = useState<string>("")
+  const [startDay, setStartDay] = useState<string>("")
+  const [endYear, setEndYear] = useState<string>("")
+  const [endMonth, setEndMonth] = useState<string>("")
+  const [endDay, setEndDay] = useState<string>("")
   const items = Object.keys(colorCombos)
   const lightnessModes = Object.keys(modes)
   const gridPositions = ["top", "middle", "bottom"]
@@ -46,8 +52,8 @@ export default function Page1() {
       mode: mode,
       gridPosition: gridPosition,
       dotSize: dotSize,
-      // startDate: `${sY}-${sM.padStart(2,"0")}-${sD.padStart(2,"0")}`,
-      // endDate:   `${eY}-${eM.padStart(2,"0")}-${eD.padStart(2,"0")}`,
+      startDate: `${startYear}-${startMonth.padStart(2,"0")}-${startDay.padStart(2,"0")}`,
+      endDate: `${endYear}-${endMonth.padStart(2,"0")}-${endDay.padStart(2,"0")}`,
     }
     const result = goalQuerySchema.safeParse(candidate)
     if (!result.success) {
@@ -79,38 +85,70 @@ export default function Page1() {
         {errors.text && <FieldError>{errors.text}</FieldError>}
       </Field>
 
-      <Field className="max-w-sm">
+      <Field className="max-w-sm" data-invalid={!!errors.startDate}>
         <FieldLabel htmlFor="start-year">Start Date</FieldLabel>
         <div className="flex items-center gap-2">
           <InputGroup>
-            <InputGroupInput id="start-year" placeholder="YYYY" />
+            <InputGroupInput
+              id="start-year"
+              placeholder="YYYY"
+              maxLength={4}
+              onChange={e => setStartYear(e.target.value)}
+            />
           </InputGroup>
           -
           <InputGroup>
-            <InputGroupInput id="start-month" placeholder="MM" />
+            <InputGroupInput
+              id="start-month"
+              placeholder="MM"
+              maxLength={2}
+              onChange={e => setStartMonth(e.target.value)}
+            />
           </InputGroup>
           -
           <InputGroup>
-            <InputGroupInput id="start-day" placeholder="DD" />
+            <InputGroupInput
+              id="start-day"
+              placeholder="DD"
+              maxLength={2}
+              onChange={e => setStartDay(e.target.value)}
+            />
           </InputGroup>
         </div>
+        {errors.startDate && <FieldError>{errors.startDate}</FieldError>}
       </Field>
 
-      <Field className="max-w-sm">
+      <Field className="max-w-sm" data-invalid={!!errors.endDate}>
         <FieldLabel htmlFor="end-year">End Date</FieldLabel>
         <div className="flex items-center gap-2">
           <InputGroup>
-            <InputGroupInput id="end-year" placeholder="YYYY" />
+            <InputGroupInput
+              id="end-year"
+              placeholder="YYYY"
+              maxLength={4}
+              onChange={e => setEndYear(e.target.value)}
+            />
           </InputGroup>
           -
           <InputGroup>
-            <InputGroupInput id="end-month" placeholder="MM" />
+            <InputGroupInput
+              id="end-month"
+              placeholder="MM"
+              maxLength={2}
+              onChange={e => setEndMonth(e.target.value)}
+            />
           </InputGroup>
           -
           <InputGroup>
-            <InputGroupInput id="end-day" placeholder="DD" />
+            <InputGroupInput
+              id="end-day"
+              placeholder="DD"
+              maxLength={2}
+              onChange={e => setEndDay(e.target.value)}
+            />
           </InputGroup>
         </div>
+        {errors.endDate && <FieldError>{errors.endDate}</FieldError>}
       </Field>
 
       <Field className="max-w-sm" data-invalid={!!errors.mode}>
