@@ -34,8 +34,8 @@ export declare function buildSvg(options: BuildSvgOptions): string
 
 // --- date-calculator.js ---
 export declare function getDotCounts(
-  startDate: string | Date,
-  endDate: string | Date
+  startDate: string | Date | null,
+  endDate: string | Date | null,
 ): { dotCount: number; highlightedDotCount: number }
 
 // --- schema.js ---

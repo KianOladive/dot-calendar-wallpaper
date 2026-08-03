@@ -19,7 +19,7 @@ export default function Pane({title, description} : PaneProps) {
   return (
     <Dialog>
       <DialogTrigger render={<Button className="w-full">Use</Button>} />
-      <DialogContent className="sm:max-w-4xl h-256 flex flex-col gap-10">
+      <DialogContent className="sm:max-w-4xl flex flex-col gap-10">
         <DialogHeader className="">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>

@@ -1,4 +1,7 @@
 export function getDotCounts(startDate, endDate) {
+  if (!startDate || !endDate) {
+    return { dotCount: null, highlightedDotCount: null }
+  }
   const end = new Date(endDate);
   const start = new Date(startDate);
   const today = new Date();
