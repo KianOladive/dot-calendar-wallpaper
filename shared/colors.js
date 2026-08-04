@@ -4,11 +4,12 @@ export const modes = {
   "light3": { "text": "#4c4f69", "bg": "#dce0e8", "empty": "#acb0be" },
   "light4": { "text": "#4c4f69", "bg": "#ccd0da", "empty": "#9ca0b0" },
   "light5": { "text": "#4c4f69", "bg": "#bcc0cc", "empty": "#8c8fa1" },
+  "dark0": { "text": "#cdd6f4", "bg": "#000000", "empty": "#45475a" },
   "dark1": { "text": "#cdd6f4", "bg": "#11111b", "empty": "#45475a" },
   "dark2": { "text": "#cdd6f4", "bg": "#1e1e2e", "empty": "#45475a" },
   "dark3": { "text": "#cad3f5", "bg": "#24273a", "empty": "#494d64" },
   "dark4": { "text": "#c6d0f5", "bg": "#303446", "empty": "#51576d" },
-  "dark5": { "text": "#c6d0f5", "bg": "#414559", "empty": "#626880" }
+  "dark5": { "text": "#c6d0f5", "bg": "#414559", "empty": "#626880" },
 }
 
 export const colorCombos = {

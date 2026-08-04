@@ -187,7 +187,13 @@ export default function Page1() {
                       key={item}
                       value={item}
                     >
-                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                      <div className="flex flex-row items-center gap-2">
+                        <span
+                          className="inline-block size-3 rounded-full"
+                          style={{ backgroundColor: modes[item].bg}}
+                        />
+                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectGroup>
@@ -197,55 +203,66 @@ export default function Page1() {
           {errors.mode && <FieldError>{errors.mode}</FieldError>}
         </Field>
 
-        <Field className="max-w-sm flex-row" data-invalid={!!errors.dotColor}>
-          <FieldLabel htmlFor="color">Color</FieldLabel>
-          <Select
-            id="color"
-            items={items}
-            value={color}
-            onValueChange={(v) => setColor(v ?? "")}
-          >
-            <SelectTrigger className="w-full max-w-48">
-              <SelectValue className="capitalize" placeholder="Select color" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Color</SelectLabel>
-                {items.map((item) => (
-                  <SelectItem key={item} value={item}>
-                    <IconCheck />
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <Field className="max-w-sm" data-invalid={!!errors.dotColor}>
+          <div className="flex flex-row justify-between">
+            <FieldLabel htmlFor="color">Color</FieldLabel>
+            <Select
+              id="color"
+              items={items}
+              value={color}
+              onValueChange={(v) => setColor(v ?? "")}
+            >
+              <SelectTrigger className="w-full max-w-48">
+                <SelectValue className="capitalize" placeholder="Select color" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Color</SelectLabel>
+                  {items.map((item) => (
+                    <SelectItem
+                      key={item}
+                      value={item}
+                    >
+                      <div className="flex flex-row items-center gap-2">
+                        <span
+                          className="inline-block size-3 rounded-full"
+                          style={{ backgroundColor: mode.startsWith("dark") ? colorCombos[item].light : colorCombos[item].dark}}
+                        />
+                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
           {errors.dotColor && <FieldError>{errors.dotColor}</FieldError>}
         </Field>
 
-        <Field className="max-w-sm flex-row" data-invalid={!!errors.gridPosition}>
-          <FieldLabel htmlFor="grid-position">Grid Position</FieldLabel>
-          <Select
-            id="grid-position"
-            items={gridPositions}
-            value={gridPosition}
-            onValueChange={(v) => setGridPosition(v ?? "")}
-          >
-            <SelectTrigger className="w-full max-w-48">
-              <SelectValue className="capitalize" placeholder="Select position"/>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Grid Position</SelectLabel>
-                {gridPositions.map((item) => (
-                  <SelectItem key={item} value={item}>
-                    <IconCheck />
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <Field className="max-w-sm" data-invalid={!!errors.gridPosition}>
+          <div className="flex flex-row justify-between">
+            <FieldLabel htmlFor="grid-position">Grid Position</FieldLabel>
+            <Select
+              id="grid-position"
+              items={gridPositions}
+              value={gridPosition}
+              onValueChange={(v) => setGridPosition(v ?? "middle")}
+            >
+              <SelectTrigger className="w-full max-w-48">
+                <SelectValue className="capitalize" placeholder="Select position"/>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Grid Position</SelectLabel>
+                  {gridPositions.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
           {errors.gridPosition && <FieldError>{errors.gridPosition}</FieldError>}
         </Field>
 
