@@ -26,25 +26,41 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "./ui/button"
+import type { GoalForm } from "./Pane"
 import { colorCombos, modes, DOT_SIZE, goalQuerySchema, buildSvg, getDotCounts } from "@goalcal/core"
 
 type Page1Props = {
   setter: (value: "page1" | "page2") => void
+  goalForm: GoalForm,
+  setGoalForm: React.Dispatch<React.SetStateAction<GoalForm>>
 }
 
-export default function Page1({ setter }: Page1Props) {
+export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [goal, setGoal] = useState<string>("")
-  const [mode, setMode] = useState<string>("dark1")
-  const [color, setColor] = useState<string>("rosewater")
-  const [gridPosition, setGridPosition] = useState<"top" | "middle" | "bottom">("middle")
-  const [dotSize, setDotSize] = useState<number>(18)
-  const [startYear, setStartYear] = useState<string>("")
-  const [startMonth, setStartMonth] = useState<string>("")
-  const [startDay, setStartDay] = useState<string>("")
-  const [endYear, setEndYear] = useState<string>("")
-  const [endMonth, setEndMonth] = useState<string>("")
-  const [endDay, setEndDay] = useState<string>("")
+  const {
+    goal,
+    mode,
+    color,
+    gridPosition,
+    dotSize,
+    startYear,
+    startMonth,
+    startDay,
+    endYear,
+    endMonth,
+    endDay,
+  } = goalForm
+  // const [goal, setGoal] = useState<string>("")
+  // const [mode, setMode] = useState<string>("dark1")
+  // const [color, setColor] = useState<string>("rosewater")
+  // const [gridPosition, setGridPosition] = useState<"top" | "middle" | "bottom">("middle")
+  // const [dotSize, setDotSize] = useState<number>(18)
+  // const [startYear, setStartYear] = useState<string>("")
+  // const [startMonth, setStartMonth] = useState<string>("")
+  // const [startDay, setStartDay] = useState<string>("")
+  // const [endYear, setEndYear] = useState<string>("")
+  // const [endMonth, setEndMonth] = useState<string>("")
+  // const [endDay, setEndDay] = useState<string>("")
   const items = Object.keys(colorCombos)
   const lightnessModes = Object.keys(modes)
   const gridPositions = ["top", "middle", "bottom"]
@@ -101,7 +117,7 @@ export default function Page1({ setter }: Page1Props) {
               id="goal-name"
               placeholder="e.g. Japan Trip"
               value={goal}
-              onChange={e => setGoal(e.target.value)}
+              onChange={e => setGoalForm(prev => ({...prev, goal: e.target.value}))}
             />
           </InputGroup>
           {errors.text && <FieldError>{errors.text}</FieldError>}
@@ -115,7 +131,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="start-year"
                 placeholder="YYYY"
                 maxLength={4}
-                onChange={e => setStartYear(e.target.value)}
+                value={startYear}
+                onChange={e => setGoalForm(prev => ({...prev, startYear: e.target.value}))}
               />
             </InputGroup>
             -
@@ -124,7 +141,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="start-month"
                 placeholder="MM"
                 maxLength={2}
-                onChange={e => setStartMonth(e.target.value)}
+                value={startMonth}
+                onChange={e => setGoalForm(prev => ({...prev, startMonth: e.target.value}))}
               />
             </InputGroup>
             -
@@ -133,7 +151,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="start-day"
                 placeholder="DD"
                 maxLength={2}
-                onChange={e => setStartDay(e.target.value)}
+                value={startDay}
+                onChange={e => setGoalForm(prev => ({...prev, startDay: e.target.value}))}
               />
             </InputGroup>
           </div>
@@ -148,7 +167,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="end-year"
                 placeholder="YYYY"
                 maxLength={4}
-                onChange={e => setEndYear(e.target.value)}
+                value={endYear}
+                onChange={e => setGoalForm(prev => ({...prev, endYear: e.target.value}))}
               />
             </InputGroup>
             -
@@ -157,7 +177,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="end-month"
                 placeholder="MM"
                 maxLength={2}
-                onChange={e => setEndMonth(e.target.value)}
+                value={endMonth}
+                onChange={e => setGoalForm(prev => ({...prev, endMonth: e.target.value}))}
               />
             </InputGroup>
             -
@@ -166,7 +187,8 @@ export default function Page1({ setter }: Page1Props) {
                 id="end-day"
                 placeholder="DD"
                 maxLength={2}
-                onChange={e => setEndDay(e.target.value)}
+                value={endDay}
+                onChange={e => setGoalForm(prev => ({...prev, endDay: e.target.value}))}
               />
             </InputGroup>
           </div>
@@ -180,7 +202,7 @@ export default function Page1({ setter }: Page1Props) {
               id="mode"
               items={lightnessModes}
               value={mode}
-              onValueChange={(v) => setMode(v ?? "")}
+              onValueChange={(v) => setGoalForm(prev => ({...prev, mode: v ?? ""}))}
             >
               <SelectTrigger className="w-full max-w-48">
                 <SelectValue className="capitalize" placeholder="Select mode" />
@@ -216,7 +238,7 @@ export default function Page1({ setter }: Page1Props) {
               id="color"
               items={items}
               value={color}
-              onValueChange={(v) => setColor(v ?? "")}
+              onValueChange={(v) => setGoalForm(prev => ({...prev, color: v ?? ""}))}
             >
               <SelectTrigger className="w-full max-w-48">
                 <SelectValue className="capitalize" placeholder="Select color" />
@@ -252,7 +274,7 @@ export default function Page1({ setter }: Page1Props) {
               id="grid-position"
               items={gridPositions}
               value={gridPosition}
-              onValueChange={(v) => setGridPosition(v ?? "middle")}
+              onValueChange={(v) => setGoalForm(prev => ({...prev, gridPosition: v ?? "middle"}))}
             >
               <SelectTrigger className="w-full max-w-48">
                 <SelectValue className="capitalize" placeholder="Select position"/>
@@ -279,7 +301,7 @@ export default function Page1({ setter }: Page1Props) {
               disabled={dotSize <= DOT_SIZE.min}
               variant="outline"
               size="icon" aria-label="Decrease"
-              onClick={() => setDotSize(prev => prev - 1)}
+              onClick={() => setGoalForm(prev => ({...prev, dotSize: prev.dotSize - 1}))}
             >
               <IconMinus />
             </Button>
@@ -291,7 +313,7 @@ export default function Page1({ setter }: Page1Props) {
               variant="outline"
               size="icon"
               aria-label="Increase"
-              onClick={() => setDotSize(prev => prev + 1)}
+              onClick={() => setGoalForm(prev => ({...prev, dotSize: prev.dotSize + 1}))}
             >
               <IconPlus />
             </Button>

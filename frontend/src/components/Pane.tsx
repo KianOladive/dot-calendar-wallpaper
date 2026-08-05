@@ -16,8 +16,36 @@ type PaneProps = {
   description: string,
 }
 
+export type GoalForm = {
+  goal: string,
+  mode: string,
+  color: string,
+  gridPosition: "top" | "middle" | "bottom",
+  dotSize: number,
+  startYear: string,
+  startMonth: string,
+  startDay: string,
+  endYear: string,
+  endMonth: string,
+  endDay: string,
+}
+
 export default function Pane({title, description} : PaneProps) {
   const [page, setPage] = useState<"page1" | "page2">("page1")
+  const [goalForm, setGoalForm] = useState<GoalForm>({
+    goal: "",
+    mode: "dark1",
+    color: "rosewater",
+    gridPosition: "middle",
+    dotSize: 18,
+    startYear: "",
+    startMonth: "",
+    startDay: "",
+    endYear: "",
+    endMonth: "",
+    endDay: "",
+  })
+
   return (
     <Dialog onOpenChangeComplete={() => setPage("page1")}>
       <DialogTrigger render={<Button className="w-full">Use</Button>} />
@@ -28,7 +56,7 @@ export default function Pane({title, description} : PaneProps) {
             {description}
           </DialogDescription>
         </DialogHeader>
-        {page == "page1" ? <Page1 setter={setPage} /> : <Page2 setter={setPage} />}
+        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} /> : <Page2 setter={setPage} />}
       </DialogContent>
     </Dialog>
   )
