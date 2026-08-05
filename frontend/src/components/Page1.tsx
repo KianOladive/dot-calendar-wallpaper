@@ -28,7 +28,11 @@ import {
 import { Button } from "./ui/button"
 import { colorCombos, modes, DOT_SIZE, goalQuerySchema, buildSvg, getDotCounts } from "@goalcal/core"
 
-export default function Page1() {
+type Page1Props = {
+  setter: (value: "page1" | "page2") => void
+}
+
+export default function Page1({ setter }: Page1Props) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [goal, setGoal] = useState<string>("")
   const [mode, setMode] = useState<string>("dark1")
@@ -77,6 +81,8 @@ export default function Page1() {
       setErrors(errs)
       return
     }
+    setErrors({})
+    setter("page2")
   }
 
   return (

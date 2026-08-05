@@ -2,6 +2,7 @@ import {useState} from "react"
 import {
   IconCheck,
   IconCopy,
+  IconX,
 } from "@tabler/icons-react"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import {
@@ -29,7 +30,11 @@ import {
 import { Button } from "./ui/button"
 import { colorCombos } from "@goalcal/core"
 
-export default function Page2() {
+type Page2Props = {
+  setter: (value: "page1" | "page2") => void
+}
+
+export default function Page2({ setter }: Page2Props) {
   const {copied, copy } = useCopyToClipboard()
   return (
     <div className="flex flex-col justify-start gap-5">
@@ -72,6 +77,9 @@ export default function Page2() {
           <li>Select newly created shortcut</li>
         </ol>
       </div>
+      <Button onClick={() => setter("page1")}>
+        <IconX />
+      </Button>
     </div>
   )
 }

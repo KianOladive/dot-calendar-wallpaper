@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -16,8 +17,9 @@ type PaneProps = {
 }
 
 export default function Pane({title, description} : PaneProps) {
+  const [page, setPage] = useState<"page1" | "page2">("page1")
   return (
-    <Dialog>
+    <Dialog onOpenChangeComplete={() => setPage("page1")}>
       <DialogTrigger render={<Button className="w-full">Use</Button>} />
       <DialogContent className="sm:max-w-4xl flex flex-col gap-10">
         <DialogHeader className="">
@@ -26,7 +28,7 @@ export default function Pane({title, description} : PaneProps) {
             {description}
           </DialogDescription>
         </DialogHeader>
-        <Page1 />
+        {page == "page1" ? <Page1 setter={setPage} /> : <Page2 setter={setPage} />}
       </DialogContent>
     </Dialog>
   )
