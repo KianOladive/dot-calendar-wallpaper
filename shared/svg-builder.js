@@ -45,8 +45,21 @@ function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth
       ${escapeXml(text)}
     </text>
   `
+  const percent = `
+    <text
+      x="${gridWidth / 2}"
+      y="${gridHeight - dotSize + textGap + textAscent}"
+      text-anchor="middle"
+      font-size="40"
+      font-family="sans-serif"
+      fill="${modes[mode].text}"
+      opacity="60%"
+    >
+      ${escapeXml(Math.round((highlighted / dotCount) * 100) + "%")}
+    </text>
+  `
   return `<g transform="translate(${offsetX}, ${offsetY})">
-    ${position === 'top' ? textSvg + cells : cells + textSvg}
+    ${position === 'top' ? textSvg + cells + percent : percent + cells + textSvg}
   </g>`
 }
 
