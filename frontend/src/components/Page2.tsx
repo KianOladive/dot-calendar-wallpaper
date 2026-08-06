@@ -32,22 +32,21 @@ import { colorCombos } from "@goalcal/core"
 
 type Page2Props = {
   setter: (value: "page1" | "page2") => void
+  link: string
 }
 
-export default function Page2({ setter }: Page2Props) {
+export default function Page2({ setter, link }: Page2Props) {
   const {copied, copy } = useCopyToClipboard()
   return (
     <div className="flex flex-col justify-start gap-5">
       <InputGroup>
-        <InputGroupInput placeholder="https://x.com/shadcnasdf" readOnly />
+        <InputGroupInput value={link} readOnly className="overflow-x-auto whitespace-nowrap" />
         <InputGroupAddon align="inline-end">
           <InputGroupButton
             aria-label="Copy"
             title="Copy"
             size="icon-xs"
-            onClick={() => {
-              copy("https://x.com/shadcn")
-            }}
+            onClick={() => {copy(link)}}
           >
             {copied ? <IconCheck /> : <IconCopy />}
           </InputGroupButton>

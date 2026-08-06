@@ -56,8 +56,14 @@ export default function Pane({title, description} : PaneProps) {
             {description}
           </DialogDescription>
         </DialogHeader>
-        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} /> : <Page2 setter={setPage} />}
+        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} /> : <Page2 link={linkMaker(goalForm)} setter={setPage} />}
       </DialogContent>
     </Dialog>
   )
+}
+
+function linkMaker(goalForm: GoalForm) {
+  const startDate = `${goalForm.startYear}-${goalForm.startMonth.padStart(2,"0")}-${goalForm.startDay.padStart(2,"0")}`
+  const endDate = `${goalForm.endYear}-${goalForm.endMonth.padStart(2,"0")}-${goalForm.endDay.padStart(2,"0")}`
+  return `http://localhost:3000/goal?mode=${goalForm.mode}&dotColor=${goalForm.color}&dotSize=${goalForm.dotSize}&endDate=${endDate}&startDate=${startDate}&position=top&text=${goalForm.goal}&gridPosition=${goalForm.gridPosition}`
 }
