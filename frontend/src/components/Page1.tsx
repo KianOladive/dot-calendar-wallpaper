@@ -1,10 +1,7 @@
 import {useState} from "react"
 import {
-  IconCheck,
   IconMinus,
   IconPlus,
-  IconSun,
-  IconMoon
 } from "@tabler/icons-react"
 import {
   InputGroup,
@@ -14,7 +11,6 @@ import {
   Field,
   FieldLabel,
   FieldError,
-  FieldDescription,
 } from "@/components/ui/field"
 import {
   Select,
@@ -50,17 +46,6 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
     endMonth,
     endDay,
   } = goalForm
-  // const [goal, setGoal] = useState<string>("")
-  // const [mode, setMode] = useState<string>("dark1")
-  // const [color, setColor] = useState<string>("rosewater")
-  // const [gridPosition, setGridPosition] = useState<"top" | "middle" | "bottom">("middle")
-  // const [dotSize, setDotSize] = useState<number>(18)
-  // const [startYear, setStartYear] = useState<string>("")
-  // const [startMonth, setStartMonth] = useState<string>("")
-  // const [startDay, setStartDay] = useState<string>("")
-  // const [endYear, setEndYear] = useState<string>("")
-  // const [endMonth, setEndMonth] = useState<string>("")
-  // const [endDay, setEndDay] = useState<string>("")
   const items = Object.keys(colorCombos)
   const lightnessModes = Object.keys(modes)
   const gridPositions = ["top", "middle", "bottom"]

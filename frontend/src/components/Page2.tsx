@@ -1,9 +1,4 @@
-import {useState} from "react"
-import {
-  IconCheck,
-  IconCopy,
-  IconX,
-} from "@tabler/icons-react"
+import { IconCheck, IconCopy } from "@tabler/icons-react"
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 import {
   InputGroup,
@@ -11,24 +6,8 @@ import {
   InputGroupAddon,
   InputGroupButton
 } from "@/components/ui/input-group"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import {
-  Field,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Toggle } from "@/components/ui/toggle"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Button } from "./ui/button"
-import { colorCombos } from "@goalcal/core"
 
 type Page2Props = {
   setter: (value: "page1" | "page2") => void
@@ -38,9 +17,9 @@ type Page2Props = {
 export default function Page2({ setter, link }: Page2Props) {
   const {copied, copy } = useCopyToClipboard()
   return (
-    <div className="flex flex-col justify-start gap-5">
+    <div className="flex flex-col gap-5 items-center">
       <InputGroup>
-        <InputGroupInput value={link} readOnly className="overflow-x-auto whitespace-nowrap" />
+        <InputGroupInput value={link} readOnly className="overflow-x-auto whitespace-nowrap opacity-75" />
         <InputGroupAddon align="inline-end">
           <InputGroupButton
             aria-label="Copy"
@@ -52,8 +31,10 @@ export default function Page2({ setter, link }: Page2Props) {
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
+
       <Separator />
-      <div className="pl-6">
+
+      <div className="pl-6 w-full">
         <h1 className="text-xl font-bold mb-2">Add Shortcut</h1>
         <ol className="list-decimal list-inside space-y-1">
           <li>Open the Shortcuts app.</li>
@@ -63,8 +44,10 @@ export default function Page2({ setter, link }: Page2Props) {
           <li>Set Wallpaper Photo</li>
         </ol>
       </div>
+
       <Separator />
-      <div className="pl-6">
+
+      <div className="pl-6 w-full">
         <h1 className="text-xl font-bold mb-2">Add Automation</h1>
         <ol className="list-decimal list-inside space-y-1">
           <li>In the Shortcuts app, switch to the Automation tab.</li>
@@ -76,8 +59,9 @@ export default function Page2({ setter, link }: Page2Props) {
           <li>Select newly created shortcut</li>
         </ol>
       </div>
-      <Button onClick={() => setter("page1")}>
-        <IconX />
+
+      <Button className="w-20" onClick={() => setter("page1")}>
+        <span>Back</span>
       </Button>
     </div>
   )
