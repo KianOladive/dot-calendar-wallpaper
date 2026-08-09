@@ -3,9 +3,9 @@ import { getDotCounts } from '@goalcal/core';
 
 export default async function getGoalImage(req, res, next) {
   try {
-    const { mode, dotColor, dotSize, endDate, startDate, text, position, gridPosition } = req.validatedQuery;
+    const { mode, dotColor, dotSize, endDate, startDate, text, layout, gridPosition } = req.validatedQuery;
     const { dotCount, highlightedDotCount } = getDotCounts(startDate, endDate)
-    const png = await buildGoalPng({ mode, dotColor, dotCount, highlighted: highlightedDotCount, dotSize, text, position, gridPosition });
+    const png = await buildGoalPng({ mode, dotColor, dotCount, highlighted: highlightedDotCount, dotSize, text, layout, gridPosition });
     res.set('Content-Type', 'image/png');
     res.send(png);
   }
