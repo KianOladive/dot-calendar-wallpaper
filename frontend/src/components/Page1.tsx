@@ -81,7 +81,8 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
   const hasEndDate = endYear && endMonth && endDay
   const startDate = hasStartDate ? `${startYear}-${startMonth.padStart(2,"0")}-${startDay.padStart(2,"0")}` : null
   const endDate = hasEndDate ? `${endYear}-${endMonth.padStart(2, "0")}-${endDay.padStart(2, "0")}` : null
-  const { dotCount, highlightedDotCount } = getDotCounts(startDate, endDate)
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const { dotCount, highlightedDotCount } = getDotCounts(startDate, endDate, timezone)
   const svg = buildSvg({
     mode,
     dotColor: color,
