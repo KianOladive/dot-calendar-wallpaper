@@ -21,6 +21,7 @@ export type GoalForm = {
   mode: string,
   color: string,
   gridPosition: "top" | "middle" | "bottom",
+  layout: 1 | 2,
   dotSize: number,
   startYear: string,
   startMonth: string,
@@ -37,6 +38,7 @@ export default function Pane({title, description} : PaneProps) {
     mode: "dark1",
     color: "rosewater",
     gridPosition: "middle",
+    layout: 1,
     dotSize: 18,
     startYear: "",
     startMonth: "",
@@ -65,5 +67,5 @@ export default function Pane({title, description} : PaneProps) {
 function linkMaker(goalForm: GoalForm) {
   const startDate = `${goalForm.startYear}-${goalForm.startMonth.padStart(2,"0")}-${goalForm.startDay.padStart(2,"0")}`
   const endDate = `${goalForm.endYear}-${goalForm.endMonth.padStart(2,"0")}-${goalForm.endDay.padStart(2,"0")}`
-  return `http://localhost:3000/goal?mode=${goalForm.mode}&dotColor=${goalForm.color}&dotSize=${goalForm.dotSize}&endDate=${endDate}&startDate=${startDate}&position=top&text=${goalForm.goal}&gridPosition=${goalForm.gridPosition}`
+  return `https://dot-calendar-wallpaper.onrender.com/goal?mode=${goalForm.mode}&dotColor=${goalForm.color}&dotSize=${goalForm.dotSize}&endDate=${endDate}&startDate=${startDate}&layout=${goalForm.layout}&text=${goalForm.goal}&gridPosition=${goalForm.gridPosition}`
 }

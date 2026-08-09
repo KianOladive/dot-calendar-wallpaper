@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import {
   IconMinus,
   IconPlus,
@@ -21,9 +21,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { Button } from "./ui/button"
 import type { GoalForm } from "./Pane"
 import { colorCombos, modes, DOT_SIZE, goalQuerySchema, buildSvg, getDotCounts } from "@goalcal/core"
+
+function ClockOverlay() {
+  const [now, setNow] = useState(new Date())
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const time = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: false })
+  const weekday = now.toLocaleDateString([], { weekday: "short" })
+  const monthDay = now.toLocaleDateString([], { month: "short", day: "numeric" })
+  const date = `${weekday} ${monthDay}`
+
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-[9%] z-30 flex flex-col items-center leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+      <span className="text-xl font-semibold">{date}</span>
+      <span className="text-8xl font-bold leading-[1.1]">{time}</span>
+    </div>
+  )
+}
 
 type Page1Props = {
   setter: (value: "page1" | "page2") => void
@@ -33,11 +55,13 @@ type Page1Props = {
 
 export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [showClock, setShowClock] = useState(false)
   const {
     goal,
     mode,
     color,
     gridPosition,
+    layout,
     dotSize,
     startYear,
     startMonth,
@@ -49,6 +73,10 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
   const items = Object.keys(colorCombos)
   const lightnessModes = Object.keys(modes)
   const gridPositions = ["top", "middle", "bottom"]
+  const layoutOptions = [
+    { value: "1", label: "Separate" },
+    { value: "2", label: "Combined" },
+  ]
   const hasStartDate = startYear && startMonth && startDay
   const hasEndDate = endYear && endMonth && endDay
   const startDate = hasStartDate ? `${startYear}-${startMonth.padStart(2,"0")}-${startDay.padStart(2,"0")}` : null
@@ -61,8 +89,8 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
     highlighted: highlightedDotCount ?? 40,
     dotSize,
     text: goal || "Japan Trip",
-    position: "top",
     gridPosition,
+    layout,
   })
 
   function handleInstall() {
@@ -71,6 +99,7 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
       dotColor: color,
       mode: mode,
       gridPosition: gridPosition,
+      layout: layout,
       dotSize: dotSize,
       startDate: startDate,
       endDate: endDate,
@@ -88,11 +117,14 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
 
   return (
     <div className="flex flex-row justify-center items-center gap-10">
-      <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`}
-        alt="Goal"
-        className="relative z-20 w-92 h-200"
-      />
+      <div className="relative w-92 h-200">
+        <img
+          src={`data:image/svg+xml;utf8,${encodeURIComponent(svg)}`}
+          alt="Goal"
+          className="relative z-20 w-full h-full"
+        />
+        {showClock && <ClockOverlay />}
+      </div>
 
       <div className="flex flex-col gap-4 items-center">
         <Field className="max-w-sm" data-invalid={!!errors.text}>
@@ -279,6 +311,33 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
           {errors.gridPosition && <FieldError>{errors.gridPosition}</FieldError>}
         </Field>
 
+        <Field className="max-w-sm" data-invalid={!!errors.layout}>
+          <div className="flex flex-row justify-between">
+            <FieldLabel htmlFor="layout">Layout</FieldLabel>
+            <Select
+              id="layout"
+              items={layoutOptions}
+              value={String(layout)}
+              onValueChange={(v) => setGoalForm(prev => ({...prev, layout: Number(v) as 1 | 2}))}
+            >
+              <SelectTrigger className="w-full max-w-48">
+                <SelectValue placeholder="Select layout"/>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Layout</SelectLabel>
+                  {layoutOptions.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          {errors.layout && <FieldError>{errors.layout}</FieldError>}
+        </Field>
+
         <Field className="max-w-sm flex-row items-center justify-between" data-invalid={!!errors.dotSize}>
           <FieldLabel htmlFor="dot-size">Dot Size</FieldLabel>
           <div className="flex items-center gap-2 justify-end">
@@ -304,6 +363,18 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
             </Button>
           </div>
           {errors.dotSize && <FieldError>{errors.dotSize}</FieldError>}
+        </Field>
+
+        <Field className="max-w-sm">
+          <div className="flex flex-row justify-between items-center">
+            <FieldLabel htmlFor="clock-overlay">Add clock overlay</FieldLabel>
+            <Switch
+              id="clock-overlay"
+              checked={showClock}
+              onCheckedChange={setShowClock}
+              aria-label="Toggle clock overlay"
+            />
+          </div>
         </Field>
 
         <Button className="px-7" onClick={handleInstall}>Install</Button>

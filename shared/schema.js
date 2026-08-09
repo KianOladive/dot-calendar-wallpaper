@@ -9,7 +9,7 @@ export const goalQuerySchema = z.object({
   startDate: z.iso.date({message: "Start date is required"}).pipe(z.coerce.date()),
   endDate: z.iso.date({message: "End date is required"}).pipe(z.coerce.date()),
   text: z.string().max(50).min(1, {message: "Goal text can't be empty"}),
-  position: z.enum(['top', 'middle', 'bottom']).default('middle'),
+  layout: z.union([z.literal(1), z.literal(2)]).default(1),
   gridPosition: z.enum(['top', 'middle', 'bottom']).default('middle'),
 }).refine(q => q.startDate < q.endDate, {
   message: 'startDate must be before endDate',

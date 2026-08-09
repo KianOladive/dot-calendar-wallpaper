@@ -26,8 +26,8 @@ export interface BuildSvgOptions {
   highlighted: number
   dotSize: number
   text: string
-  position: "top" | "middle" | "bottom"
   gridPosition: "top" | "middle" | "bottom"
+  layout?: 1 | 2
 }
 
 export declare function buildSvg(options: BuildSvgOptions): string
@@ -46,10 +46,8 @@ export interface GoalConfig {
   startDate: Date
   endDate: Date
   text: string
-  position: "top" | "middle" | "bottom"
   gridPosition: "top" | "middle" | "bottom"
+  layout?: 1 | 2
 }
-
-export declare const DOT_SIZE: { min: number; max: number; default: number }
 
 export declare const goalQuerySchema: ZodType<GoalConfig>
