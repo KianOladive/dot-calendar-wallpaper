@@ -13,11 +13,12 @@ type CardImageProps = {
   cardDescription: string,
   paneTitle: string,
   paneDescription: string,
+  isGoal?: boolean,
 }
 
-export function CardImage({image, cardTitle, cardDescription, paneTitle, paneDescription}: CardImageProps) {
+export function CardImage({image, cardTitle, cardDescription, paneTitle, paneDescription, isGoal}: CardImageProps) {
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0">
+    <Card className="relative max-w-sm pt-0">
       <img
         src={image}
         className="relative z-20 w-full object-cover"
@@ -30,6 +31,7 @@ export function CardImage({image, cardTitle, cardDescription, paneTitle, paneDes
         <Pane
           title={paneTitle}
           description={paneDescription}
+          isGoal={isGoal}
         />
       </CardFooter>
     </Card>

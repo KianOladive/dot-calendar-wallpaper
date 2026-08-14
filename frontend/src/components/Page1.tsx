@@ -51,9 +51,10 @@ type Page1Props = {
   setter: (value: "page1" | "page2") => void
   goalForm: GoalForm,
   setGoalForm: React.Dispatch<React.SetStateAction<GoalForm>>
+  isGoal?: boolean,
 }
 
-export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
+export default function Page1({ setter, goalForm, setGoalForm, isGoal  }: Page1Props) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [showClock, setShowClock] = useState(false)
   const {
@@ -127,91 +128,96 @@ export default function Page1({ setter, goalForm, setGoalForm  }: Page1Props) {
         {showClock && <ClockOverlay />}
       </div>
 
-      <div className="flex flex-col gap-4 items-center">
-        <Field className="max-w-sm" data-invalid={!!errors.text}>
-          <FieldLabel htmlFor="goal-name">Goal</FieldLabel>
-          <InputGroup>
-            <InputGroupInput
-              id="goal-name"
-              placeholder="e.g. Japan Trip"
-              value={goal}
-              onChange={e => setGoalForm(prev => ({...prev, goal: e.target.value}))}
-            />
-          </InputGroup>
-          {errors.text && <FieldError>{errors.text}</FieldError>}
-        </Field>
+      <div className="flex flex-col gap-4 items-center w-sm">
+        {
+          isGoal &&
+          <>
+            <Field className="max-w-sm" data-invalid={!!errors.text}>
+              <FieldLabel htmlFor="goal-name">Goal</FieldLabel>
+              <InputGroup>
+                <InputGroupInput
+                  id="goal-name"
+                  placeholder="e.g. Japan Trip"
+                  value={goal}
+                  onChange={e => setGoalForm(prev => ({...prev, goal: e.target.value}))}
+                />
+              </InputGroup>
+              {errors.text && <FieldError>{errors.text}</FieldError>}
+            </Field>
 
-        <Field className="max-w-sm" data-invalid={!!errors.startDate}>
-          <FieldLabel htmlFor="start-year">Start Date</FieldLabel>
-          <div className="flex items-center gap-2">
-            <InputGroup>
-              <InputGroupInput
-                id="start-year"
-                placeholder="YYYY"
-                maxLength={4}
-                value={startYear}
-                onChange={e => setGoalForm(prev => ({...prev, startYear: e.target.value}))}
-              />
-            </InputGroup>
-            -
-            <InputGroup>
-              <InputGroupInput
-                id="start-month"
-                placeholder="MM"
-                maxLength={2}
-                value={startMonth}
-                onChange={e => setGoalForm(prev => ({...prev, startMonth: e.target.value}))}
-              />
-            </InputGroup>
-            -
-            <InputGroup>
-              <InputGroupInput
-                id="start-day"
-                placeholder="DD"
-                maxLength={2}
-                value={startDay}
-                onChange={e => setGoalForm(prev => ({...prev, startDay: e.target.value}))}
-              />
-            </InputGroup>
-          </div>
-          {errors.startDate && <FieldError>{errors.startDate}</FieldError>}
-        </Field>
+            <Field className="max-w-sm" data-invalid={!!errors.startDate}>
+              <FieldLabel htmlFor="start-year">Start Date</FieldLabel>
+              <div className="flex items-center gap-2">
+                <InputGroup>
+                  <InputGroupInput
+                    id="start-year"
+                    placeholder="YYYY"
+                    maxLength={4}
+                    value={startYear}
+                    onChange={e => setGoalForm(prev => ({...prev, startYear: e.target.value}))}
+                  />
+                </InputGroup>
+                -
+                <InputGroup>
+                  <InputGroupInput
+                    id="start-month"
+                    placeholder="MM"
+                    maxLength={2}
+                    value={startMonth}
+                    onChange={e => setGoalForm(prev => ({...prev, startMonth: e.target.value}))}
+                  />
+                </InputGroup>
+                -
+                <InputGroup>
+                  <InputGroupInput
+                    id="start-day"
+                    placeholder="DD"
+                    maxLength={2}
+                    value={startDay}
+                    onChange={e => setGoalForm(prev => ({...prev, startDay: e.target.value}))}
+                  />
+                </InputGroup>
+              </div>
+              {errors.startDate && <FieldError>{errors.startDate}</FieldError>}
+            </Field>
 
-        <Field className="max-w-sm" data-invalid={!!errors.endDate}>
-          <FieldLabel htmlFor="end-year">End Date</FieldLabel>
-          <div className="flex items-center gap-2">
-            <InputGroup>
-              <InputGroupInput
-                id="end-year"
-                placeholder="YYYY"
-                maxLength={4}
-                value={endYear}
-                onChange={e => setGoalForm(prev => ({...prev, endYear: e.target.value}))}
-              />
-            </InputGroup>
-            -
-            <InputGroup>
-              <InputGroupInput
-                id="end-month"
-                placeholder="MM"
-                maxLength={2}
-                value={endMonth}
-                onChange={e => setGoalForm(prev => ({...prev, endMonth: e.target.value}))}
-              />
-            </InputGroup>
-            -
-            <InputGroup>
-              <InputGroupInput
-                id="end-day"
-                placeholder="DD"
-                maxLength={2}
-                value={endDay}
-                onChange={e => setGoalForm(prev => ({...prev, endDay: e.target.value}))}
-              />
-            </InputGroup>
-          </div>
-          {errors.endDate && <FieldError>{errors.endDate}</FieldError>}
-        </Field>
+            <Field className="max-w-sm" data-invalid={!!errors.endDate}>
+              <FieldLabel htmlFor="end-year">End Date</FieldLabel>
+              <div className="flex items-center gap-2">
+                <InputGroup>
+                  <InputGroupInput
+                    id="end-year"
+                    placeholder="YYYY"
+                    maxLength={4}
+                    value={endYear}
+                    onChange={e => setGoalForm(prev => ({...prev, endYear: e.target.value}))}
+                  />
+                </InputGroup>
+                -
+                <InputGroup>
+                  <InputGroupInput
+                    id="end-month"
+                    placeholder="MM"
+                    maxLength={2}
+                    value={endMonth}
+                    onChange={e => setGoalForm(prev => ({...prev, endMonth: e.target.value}))}
+                  />
+                </InputGroup>
+                -
+                <InputGroup>
+                  <InputGroupInput
+                    id="end-day"
+                    placeholder="DD"
+                    maxLength={2}
+                    value={endDay}
+                    onChange={e => setGoalForm(prev => ({...prev, endDay: e.target.value}))}
+                  />
+                </InputGroup>
+              </div>
+              {errors.endDate && <FieldError>{errors.endDate}</FieldError>}
+            </Field>
+          </>
+        }
 
         <Field className="max-w-sm" data-invalid={!!errors.mode}>
           <div className="flex flex-row justify-between">

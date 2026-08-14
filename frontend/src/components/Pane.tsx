@@ -14,6 +14,7 @@ import Page2 from "./Page2"
 type PaneProps = {
   title: string,
   description: string,
+  isGoal?: boolean,
 }
 
 export type GoalForm = {
@@ -31,7 +32,7 @@ export type GoalForm = {
   endDay: string,
 }
 
-export default function Pane({title, description} : PaneProps) {
+export default function Pane({title, description, isGoal} : PaneProps) {
   const [page, setPage] = useState<"page1" | "page2">("page1")
   const [goalForm, setGoalForm] = useState<GoalForm>({
     goal: "",
@@ -58,7 +59,7 @@ export default function Pane({title, description} : PaneProps) {
             {description}
           </DialogDescription>
         </DialogHeader>
-        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} /> : <Page2 link={linkMaker(goalForm)} setter={setPage} />}
+        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} isGoal={isGoal} /> : <Page2 link={linkMaker(goalForm)} setter={setPage} />}
       </DialogContent>
     </Dialog>
   )
