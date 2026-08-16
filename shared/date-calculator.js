@@ -10,3 +10,13 @@ export function getDotCounts(startDate, endDate, timezone = 'UTC') {
   const highlightedDotCount = Math.floor((today - start) / (1000 * 60 * 60 * 24));
   return { dotCount, highlightedDotCount }
 }
+
+export function getMonthDotCounts(timezone = 'UTC') {
+  const todayString = new Intl.DateTimeFormat('en-CA', { timeZone: timezone }).format(new Date())
+  const [year, month, day] = todayString.split('-').map(Number);
+  const dotCount = new Date(year, month, 0).getDate();
+  const highlightedDotCount = day;
+  const offset = new Date(year, month - 1, 1).getDay();
+  const monthName = new Intl.DateTimeFormat('en-US', {month: 'long'}).format(new Date(year, month - 1, 1));
+  return { dotCount, highlightedDotCount, offset, monthName }
+}

@@ -9,7 +9,7 @@ const distPath = path.join(__dirname, '../frontend/dist');
 const app = express();
 
 app.use(express.json());
-app.use('/goal', imageRouter);
+app.use('', imageRouter);
 
 app.use(express.static(distPath));
 

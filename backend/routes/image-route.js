@@ -1,6 +1,6 @@
 import express from 'express';
-import getGoalImage from '../controller/image-controller.js'
-import { goalQuerySchema } from '@goalcal/core';
+import { getGoalImage, getMonthImage } from '../controller/image-controller.js'
+import { goalQuerySchema, monthQuerySchema } from '@goalcal/core';
 
 const router = express.Router();
 
@@ -18,6 +18,7 @@ function validateQuery(schema) {
   }
 }
 
-router.get("/", validateQuery(goalQuerySchema), getGoalImage)
+router.get("/goal", validateQuery(goalQuerySchema), getGoalImage)
+router.get("/month", validateQuery(monthQuerySchema), getMonthImage)
 
 export default router;

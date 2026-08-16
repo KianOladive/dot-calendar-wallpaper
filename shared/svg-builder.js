@@ -6,16 +6,15 @@ const width = 1179;
 const textAscent = 36;
 const textDescent = 12;
 
-export function buildSvg({ mode, dotColor, dotCount, highlighted, dotSize, text, gridPosition, layout = 1 }) {
+export function buildSvg({ mode, dotColor, dotCount, highlighted, dotSize, text, gridPosition, layout = 1, offset = 0, cols = 12 }) {
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
     <rect width="${width}" height="${height}" fill="${modes[mode].bg}"/>
-    ${buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth: width, text, gridPosition, layout })}
+    ${buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth: width, text, gridPosition, layout, offset, cols})}
   </svg>`;
 }
 
-function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth, text, gridPosition, layout }) {
+function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth, text, gridPosition, layout, offset, cols }) {
   const colors = highlightColors(mode, dotColor);
-  const cols = 12;
   const textGap = 50;
   const pad = dotSize * 3.5;
   const gridWidth = pad * (cols - 1) + dotSize * 2;
@@ -27,7 +26,7 @@ function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth
     : gridHeight - dotSize + textGap + textAscent;
   const { offsetX, offsetY } = gridOffsets(gridPosition, svgWidth, gridWidth, gridHeight, dotSize, textY);
 
-  const cells = buildCells({ dotCount, highlighted, cols, pad, dotSize, colors });
+  const cells = buildCells({ dotCount, highlighted, cols, pad, dotSize, colors, offset });
   const percentValue = Math.round((highlighted / dotCount) * 100) + "%";
   const textBlock = buildTextBlock({
     layout,
@@ -46,9 +45,9 @@ function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth
   </g>`;
 }
 
-function buildCells({ dotCount, highlighted, cols, pad, dotSize, colors }) {
+function buildCells({ dotCount, highlighted, cols, pad, dotSize, colors, offset }) {
   let cells = '';
-  for (let i = 0; i < dotCount; i++) {
+  for (let i = offset; i < dotCount + offset; i++) {
     const xPos = i % cols;
     const yPos = Math.floor(i / cols);
     const fill = i === highlighted ? colors.currentDate : i < highlighted ? colors.pastDates : colors.futureDates;

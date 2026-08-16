@@ -28,6 +28,7 @@ export interface BuildSvgOptions {
   text: string
   gridPosition: "top" | "middle" | "bottom"
   layout?: 1 | 2
+  offset?: number
 }
 
 export declare function buildSvg(options: BuildSvgOptions): string
@@ -38,6 +39,10 @@ export declare function getDotCounts(
   endDate: string | Date | null,
   timezone?: string,
 ): { dotCount: number; highlightedDotCount: number }
+
+export declare function getMonthDotCounts(
+  timezone?: string,
+): { dotCount: number; highlightedDotCount: number; offset: number }
 
 // --- schema.js ---
 export interface GoalConfig {
@@ -52,4 +57,15 @@ export interface GoalConfig {
   timezone?: string
 }
 
+export interface MonthConfig {
+  mode: string
+  dotColor: string
+  dotSize: number
+  gridPosition: "top" | "middle" | "bottom"
+  layout?: 1 | 2
+  timezone?: string
+  offset?: number
+}
+
 export declare const goalQuerySchema: ZodType<GoalConfig>
+export declare const monthQuerySchema: ZodType<MonthConfig>
