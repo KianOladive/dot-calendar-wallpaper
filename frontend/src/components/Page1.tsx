@@ -24,7 +24,7 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Button } from "./ui/button"
 import type { GoalForm } from "./Pane"
-import { colorCombos, modes, DOT_SIZE, goalQuerySchema, buildSvg, getDotCounts } from "@goalcal/core"
+import { colorCombos, modes, DOT_SIZE, goalQuerySchema, buildSvg, getDotCounts, getMonthDotCounts, monthQuerySchema } from "@goalcal/core"
 
 function ClockOverlay() {
   const [now, setNow] = useState(new Date())
@@ -83,30 +83,30 @@ export default function Page1({ setter, goalForm, setGoalForm, isGoal  }: Page1P
   const startDate = hasStartDate ? `${startYear}-${startMonth.padStart(2,"0")}-${startDay.padStart(2,"0")}` : null
   const endDate = hasEndDate ? `${endYear}-${endMonth.padStart(2, "0")}-${endDay.padStart(2, "0")}` : null
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const { dotCount, highlightedDotCount } = getDotCounts(startDate, endDate, timezone)
-  const svg = buildSvg({
-    mode,
-    dotColor: color,
-    dotCount: dotCount ?? 80,
-    highlighted: highlightedDotCount ?? 40,
-    dotSize,
-    text: goal || "Japan Trip",
-    gridPosition,
-    layout,
-  })
+  const svg = createSvg()
 
   function handleInstall() {
-    const candidate = {
-      text: goal,
-      dotColor: color,
-      mode: mode,
-      gridPosition: gridPosition,
-      layout: layout,
-      dotSize: dotSize,
-      startDate: startDate,
-      endDate: endDate,
+    let result
+    if (isGoal) {
+      result = goalQuerySchema.safeParse({
+        text: goal,
+        dotColor: color,
+        mode: mode,
+        gridPosition: gridPosition,
+        layout: layout,
+        dotSize: dotSize,
+        startDate: startDate,
+        endDate: endDate,
+      })
+    } else {
+      result = monthQuerySchema.safeParse({
+        dotColor: color,
+        mode: mode,
+        gridPosition: gridPosition,
+        layout: layout,
+        dotSize: dotSize,
+      })
     }
-    const result = goalQuerySchema.safeParse(candidate)
     if (!result.success) {
       const errs: Record<string,string> = {}
       for (const i of result.error.issues) errs[String(i.path[0])] = i.message
@@ -115,6 +115,39 @@ export default function Page1({ setter, goalForm, setGoalForm, isGoal  }: Page1P
     }
     setErrors({})
     setter("page2")
+  }
+
+  function createSvg() {
+    if (isGoal) {
+      const { dotCount, highlightedDotCount } = getDotCounts(startDate, endDate, timezone)
+      const svg = buildSvg({
+        mode,
+        dotColor: color,
+        dotCount: dotCount ?? 80,
+        highlighted: highlightedDotCount ?? 40,
+        dotSize,
+        text: goal || "Japan Trip",
+        gridPosition,
+        layout,
+      })
+      return svg
+    }
+    else {
+      const { dotCount, highlightedDotCount, offset, monthName } = getMonthDotCounts(timezone)
+      const svg = buildSvg({
+        mode,
+        dotColor: color,
+        dotCount: dotCount,
+        highlighted: highlightedDotCount,
+        dotSize,
+        text: monthName,
+        gridPosition,
+        layout,
+        offset,
+        cols: 7,
+      })
+      return svg;
+    }
   }
 
   return (

@@ -15,7 +15,7 @@ export function getMonthDotCounts(timezone = 'UTC') {
   const todayString = new Intl.DateTimeFormat('en-CA', { timeZone: timezone }).format(new Date())
   const [year, month, day] = todayString.split('-').map(Number);
   const dotCount = new Date(year, month, 0).getDate();
-  const highlightedDotCount = day;
+  const highlightedDotCount = day - 1;
   const offset = new Date(year, month - 1, 1).getDay();
   const monthName = new Intl.DateTimeFormat('en-US', {month: 'long'}).format(new Date(year, month - 1, 1));
   return { dotCount, highlightedDotCount, offset, monthName }

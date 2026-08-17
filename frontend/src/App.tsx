@@ -1,5 +1,6 @@
 import { CardImage } from "@/components/Card"
 import goalPic from "./assets/goal.png"
+import monthPic from "./assets/month.png"
 
 export default function App() {
   return (
@@ -13,7 +14,7 @@ export default function App() {
         isGoal={true}
       />
       <CardImage
-        image={goalPic}
+        image={monthPic}
         cardTitle={"Month"}
         cardDescription={"The current month as a grid of dots."}
         paneTitle={"Month"}

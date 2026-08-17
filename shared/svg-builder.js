@@ -18,7 +18,7 @@ function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth
   const textGap = 50;
   const pad = dotSize * 3.5;
   const gridWidth = pad * (cols - 1) + dotSize * 2;
-  const gridRows = Math.ceil(dotCount / cols);
+  const gridRows = Math.ceil((dotCount + offset) / cols);
   const gridHeight = pad * (gridRows - 1) + dotSize * 2;
   const textAbove = layout === 1;
   const textY = textAbove
@@ -47,10 +47,10 @@ function buildDotGrid({ mode, dotColor, dotCount, highlighted, dotSize, svgWidth
 
 function buildCells({ dotCount, highlighted, cols, pad, dotSize, colors, offset }) {
   let cells = '';
-  for (let i = offset; i < dotCount + offset; i++) {
-    const xPos = i % cols;
-    const yPos = Math.floor(i / cols);
-    const fill = i === highlighted ? colors.currentDate : i < highlighted ? colors.pastDates : colors.futureDates;
+  for (let i = 0; i < dotCount; i++) {
+    const xPos = (i + offset) % cols;
+    const yPos = Math.floor((i + offset) / cols);
+    const fill = i === highlighted ? colors.currentDate : i< highlighted ? colors.pastDates : colors.futureDates;
     if (i === highlighted) {
       cells += `<circle cx="${xPos * pad}" cy="${yPos * pad}" r="${dotSize*1.8}" fill="${fill}" opacity="0.3"/>`;
     }

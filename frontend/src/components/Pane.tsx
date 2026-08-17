@@ -59,15 +59,18 @@ export default function Pane({title, description, isGoal} : PaneProps) {
             {description}
           </DialogDescription>
         </DialogHeader>
-        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} isGoal={isGoal} /> : <Page2 link={linkMaker(goalForm)} setter={setPage} />}
+        {page == "page1" ? <Page1 setter={setPage} goalForm={goalForm} setGoalForm={setGoalForm} isGoal={isGoal} /> : <Page2 link={linkMaker(goalForm, isGoal ?? false)} setter={setPage} />}
       </DialogContent>
     </Dialog>
   )
 }
 
-function linkMaker(goalForm: GoalForm) {
+function linkMaker(goalForm: GoalForm, isGoal: boolean) {
+  const route = isGoal ? 'goal' : 'month'
   const startDate = `${goalForm.startYear}-${goalForm.startMonth.padStart(2,"0")}-${goalForm.startDay.padStart(2,"0")}`
   const endDate = `${goalForm.endYear}-${goalForm.endMonth.padStart(2,"0")}-${goalForm.endDay.padStart(2,"0")}`
   const timezone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone)
-  return `https://dot-calendar-wallpaper.onrender.com/goal?mode=${goalForm.mode}&dotColor=${goalForm.color}&dotSize=${goalForm.dotSize}&endDate=${endDate}&startDate=${startDate}&layout=${goalForm.layout}&text=${goalForm.goal}&gridPosition=${goalForm.gridPosition}&timezone=${timezone}`
+  const baseLink = `https://dot-calendar-wallpaper.onrender.com/${route}?mode=${goalForm.mode}&dotColor=${goalForm.color}&dotSize=${goalForm.dotSize}&layout=${goalForm.layout}&gridPosition=${goalForm.gridPosition}&timezone=${timezone}`
+  const outputLink = isGoal ? baseLink + `&endDate=${endDate}&startDate=${startDate}&text=${goalForm.goal}` : baseLink
+  return outputLink
 }

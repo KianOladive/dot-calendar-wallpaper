@@ -29,6 +29,7 @@ export interface BuildSvgOptions {
   gridPosition: "top" | "middle" | "bottom"
   layout?: 1 | 2
   offset?: number
+  cols?: number
 }
 
 export declare function buildSvg(options: BuildSvgOptions): string
@@ -42,7 +43,7 @@ export declare function getDotCounts(
 
 export declare function getMonthDotCounts(
   timezone?: string,
-): { dotCount: number; highlightedDotCount: number; offset: number }
+): { dotCount: number; highlightedDotCount: number; offset: number, monthName: string }
 
 // --- schema.js ---
 export interface GoalConfig {
