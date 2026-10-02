@@ -18,16 +18,16 @@ type CardImageProps = {
 
 export function CardImage({image, cardTitle, cardDescription, paneTitle, paneDescription, isGoal}: CardImageProps) {
   return (
-    <Card className="relative max-w-sm pt-0">
+    <Card className="relative max-w-sm pt-0 flex flex-col">
       <img
         src={image}
-        className="relative z-20 w-full object-cover"
+        className="relative z-20 w-full object-cover h-72"
       />
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
         <CardDescription>{cardDescription}</CardDescription>
       </CardHeader>
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <Pane
           title={paneTitle}
           description={paneDescription}
